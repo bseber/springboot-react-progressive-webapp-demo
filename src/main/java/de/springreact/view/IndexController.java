@@ -1,5 +1,6 @@
 package de.springreact.view;
 
+import de.springreact.api.IndexAPI;
 import de.springreact.react.React;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,10 +13,12 @@ import java.util.Map;
 @Controller
 public class IndexController {
 
+    private final IndexAPI api;
     private final React react;
 
     @Autowired
-    public IndexController (React react) {
+    public IndexController (IndexAPI api, React react) {
+        this.api = api;
         this.react = react;
     }
 
@@ -25,6 +28,7 @@ public class IndexController {
         final Map<String, String> initialState = getAppState ();
 
         model.addAttribute ("content", react.render (initialState));
+        model.addAttribute ("initialState",          initialState);
 
         return "index";
     }
@@ -34,7 +38,7 @@ public class IndexController {
         final Map<String, String> state = new HashMap<> ();
 
                state.put ("location", "/");
-               state.put ("content", "Index");
+               state.put ("content", api.getContent ());
         return state;
     }
 }

@@ -21,6 +21,7 @@ public class React {
             NashornScriptEngine nashornScriptEngine = (NashornScriptEngine) new ScriptEngineManager ().getEngineByName ("nashorn");
 
             try {
+                nashornScriptEngine.eval (read ("static/nashorn-polyfill.js"));
                 nashornScriptEngine.eval (read ("static/vendor/react.js"));
                 nashornScriptEngine.eval (read ("static/vendor/react-dom-server.js"));
                 nashornScriptEngine.eval (read ("static/js/main.js"));
