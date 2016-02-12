@@ -5,9 +5,6 @@ import org.springframework.stereotype.Component;
 
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.Map;
 
 @Component
@@ -21,10 +18,10 @@ public class React {
             NashornScriptEngine nashornScriptEngine = (NashornScriptEngine) new ScriptEngineManager ().getEngineByName ("nashorn");
 
             try {
-                nashornScriptEngine.eval (read ("static/nashorn-polyfill.js"));
-                nashornScriptEngine.eval (read ("static/vendor/react.js"));
-                nashornScriptEngine.eval (read ("static/vendor/react-dom-server.js"));
-                nashornScriptEngine.eval (read ("static/js/main.js"));
+                nashornScriptEngine.eval ("load ('src/main/resources/static/nashorn-polyfill.js')");
+                nashornScriptEngine.eval ("load ('src/main/resources/static/vendor/react.js')");
+                nashornScriptEngine.eval ("load ('src/main/resources/static/vendor/react-dom-server.js')");
+                nashornScriptEngine.eval ("load ('src/main/resources/static/js/main.js')");
             }
             catch (ScriptException e) {
                 throw new RuntimeException(e);
@@ -43,12 +40,5 @@ public class React {
         catch (Exception e) {
             throw new IllegalStateException ("failed to render react component", e);
         }
-    }
-
-    private Reader read (String path) {
-
-        InputStream in = getClass ().getClassLoader ().getResourceAsStream (path);
-
-        return new InputStreamReader (in);
     }
 }
